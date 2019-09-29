@@ -1,0 +1,15 @@
+{% extends "pageLayout.html" %}
+
+{% block body %}
+    <h1>Registration:</h1>
+    <form action="/register" method="POST">
+        <input name="name" autocomplete="off" autofocus placeholder="Name" type="text">
+        <input name="email" autocomplete="off" autofocus placeholder="Email" type="email">
+        <select name="branch" autofocus>
+            <option disabled selected value="">Branch</option>
+            <option value="CS">CS</option>
+            <option value="IT">IT</option>
+        </select>
+        <input type="submit" value="Register" autofocus>
+    </form>
+{% endblock %}
