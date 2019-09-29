@@ -12,4 +12,17 @@
         </select>
         <input type="submit" value="Register" autofocus>
     </form>
+    <script>
+        document.querySelector('form').onsubmit =  function(){
+            if(!document.querySelector('input').value){
+                alert("You must enter your name!");
+                return false;
+            }
+            else if(!document.querySelector('select').value){
+                alert("You must provide your branch");
+                return false;
+            }
+        };
+    </script>
+     
 {% endblock %}

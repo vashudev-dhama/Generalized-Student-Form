@@ -1,6 +1,7 @@
-import os
-import smtplib
+# import os
+# import smtplib
 from flask import Flask, render_template, request, redirect
+import csv
 
 app = Flask(__name__)
 
@@ -11,23 +12,29 @@ students = []
 def index():
     return render_template("index.html")
 
-@app.route("/registrants")
-def registrants():
-    return render_template("registered.html", students = students)
+# @app.route("/registrants")
+# def registrants():
+#     return render_template("registered.html", students = students)
 
 #listen for '/register'
 @app.route("/register", methods=["POST"])
 def register():
-    name = request.form.get("name") #coming via POST not GET
-    email = request.form.get("email")
-    branch = request.form.get("branch")
-    if not name or not branch or not email:
+    if not request.form.get("name") or not request.form.get("branch") or not request.form.get("email"):
         return "failure"
-    students.append(f"{name} from {branch}") #formatted string appended
-    message = f"Hello {name}, thanks for the registration"
-    server = smtplib.SMTP("smtp.gmail.com", 587)
-    server.starttls()
-    server.login("vashudev.1613121@kiet.edu", "itsforkietidOk?")
-    server.sendmail("vashudev.1613121@kiet.edu", email, message)
-    return render_template("success.html", name = name) 
-    #return redirect("/registrants")
+    file = open("registered.csv", "a") # a for append mode
+    writer = csv.writer(file)
+    writer.writerow((request.form.get("name"), request.form.get("branch"))) #extra braces for tuple
+    file.close()
+    return render_template("success.html", name = request.form.get("name"))
+
+@app.route("/registered")
+def registered():
+    file = open("registered.csv", "r")
+    reader = csv.reader(file)
+    students = list(reader)
+    file.close()
+    '''Below code will handle the opening and closing of file itself--
+    with open("registered.csv", "r") as file:
+        reader = csv.reader(file)
+        students = list(reader)'''
+    return render_template("registered.html", students = students)
