@@ -2,7 +2,7 @@
 
 {% block body %}
     <h1>Registration:</h1>
-    <form action="/register" method="POST">
+    <form action="/register" method="POST" name="studentForm">
         <input name="name" autocomplete="off" autofocus placeholder="Name" type="text">
         <input name="email" autocomplete="off" autofocus placeholder="Email" type="email">
         <select name="branch" autofocus>
@@ -15,7 +15,7 @@
     <script>
         document.querySelector('form').onsubmit =  function(){
             if(!document.querySelector('input').value){
-                alert("You must enter your name!");
+                alert("You must enter your name and email!");
                 return false;
             }
             else if(!document.querySelector('select').value){
